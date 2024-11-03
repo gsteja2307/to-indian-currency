@@ -1,0 +1,25 @@
+{
+  "name": "to-indian-currency",
+  "version": "1.0.0",
+  "description": "A simple utility to convert numbers into Indian Rupee format and words.",
+  "main": "./dist/to-indian-currency.umd.js",
+  "module": "./dist/to-indian-currency.es.js",
+  "scripts": {
+    "build": "vite build"
+  },
+  "keywords": [
+    "indian currency",
+    "currency converter",
+    "number to words",
+    "INR",
+    "npm package"
+  ],
+  "author": "G Surya Teja",
+  "license": "MIT",
+  "dependencies": {
+    "number-to-words": "^1.2.4"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  }
+}
