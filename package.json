@@ -1,6 +1,7 @@
 {
   "name": "to-indian-currency",
-  "version": "1.0.0",
+  "author": "https://github.com/gsteja2307",
+  "version": "1.0.1",
   "description": "A simple utility to convert numbers into Indian Rupee format and words.",
   "main": "./dist/to-indian-currency.umd.js",
   "module": "./dist/to-indian-currency.es.js",
@@ -12,14 +13,19 @@
     "currency converter",
     "number to words",
     "INR",
-    "npm package"
+    "npm package",
+    "Rupee",
+    "indian rupee"
   ],
-  "author": "G Surya Teja",
   "license": "MIT",
   "dependencies": {
     "number-to-words": "^1.2.4"
   },
   "devDependencies": {
     "vite": "^5.4.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gsteja2307/to-indian-currency.git"
   }
 }
