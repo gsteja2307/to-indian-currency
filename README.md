@@ -1,5 +1,8 @@
 
 # to-indian-currency
+[![NPM version](https://img.shields.io/npm/v/to-indian-currency.svg)](https://www.npmjs.com/package/to-indian-currency)
+[![NPM downloads](https://img.shields.io/npm/dm/to-indian-currency.svg)](https://www.npmjs.com/package/to-indian-currency)
+[![GitHub stars](https://img.shields.io/github/stars/gsteja2307/to-indian-currency.svg)](https://github.com/gsteja2307/to-indian-currency/stargazers)
 
 A simple utility to convert numbers into Indian Rupee format and words.
 
