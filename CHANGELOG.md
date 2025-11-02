@@ -6,6 +6,10 @@ To document version changes and improvements.
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2025-11-02
+### Added
+- README: Playground link (https://gsuryateja.com/to-indian-currency/) and more examples.
+
 ## [2.0.0] - 2025-11-01
 ### Added
 - Compact notation for Indian currency (K / L / Cr) with configurable rounding:
@@ -37,4 +41,3 @@ All notable changes to this project will be documented in this file.
 - `toINR` function to format numbers into Indian Rupee format (e.g., `\u20B91,10,00,000.00`).
 - `toINRWords` function to convert numbers to words in Indian currency format.
 - Paise support for decimal numbers (e.g., `Seventy-Five Paise`).
-

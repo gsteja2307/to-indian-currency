@@ -7,6 +7,8 @@ A compact, well‑typed toolkit for Indian currency formatting, parsing, words, 
 
 Maintained by: [G Surya Teja](https://github.com/gsteja2307)
 
+Playground: https://gsuryateja.com/to-indian-currency/
+
 ## Features
 - Format numbers into Indian Rupee (`\u20B9`) with proper grouping (1,10,00,000).
 - Compact notation with Indian units: `K`, `L`, `Cr`.
