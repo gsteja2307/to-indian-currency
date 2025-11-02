@@ -7,6 +7,7 @@ To document version changes and improvements.
 All notable changes to this project will be documented in this file.
 
 ## [2.0.1] - 2025-11-02
+## [2.0.2] - 2025-11-02
 ### Added
 - README: Playground link (https://gsuryateja.com/to-indian-currency/) and more examples.
 
@@ -15,8 +16,8 @@ All notable changes to this project will be documented in this file.
 - Compact notation for Indian currency (K / L / Cr) with configurable rounding:
   - `round`, `roundDigits`, `roundingMode: 'none' | 'nearest' | 'down' | 'up'`
 - Parsing utilities:
-  - `parse('\u20B912,34,567.50', { tolerant, defaultDecimals })` → `1234567.5`
-  - Handles `\u20B9`, `Rs.`, `INR`, spaces, parentheses for negatives, compact units (e.g., `12.3L`), and mixed junk (e.g., `INR 1,23,000/-`).
+  - `parse('₹12,34,567.50', { tolerant, defaultDecimals })` → `1234567.5`
+  - Handles `₹`, `Rs.`, `INR`, spaces, parentheses for negatives, compact units (e.g., `12.3L`), and mixed junk (e.g., `INR 1,23,000/-`).
   - `expandCompact('2.5Cr')` → `25000000`
   - `parseWords('One Crore Two Lakh Five Thousand')` → `12050000`
 - Breakdown utilities:
@@ -38,6 +39,6 @@ All notable changes to this project will be documented in this file.
 ## [1.0.0] - 04-11-2024
 ### Added
 - Initial release of `to-indian-currency`.
-- `toINR` function to format numbers into Indian Rupee format (e.g., `\u20B91,10,00,000.00`).
+- `toINR` function to format numbers into Indian Rupee format (e.g., `₹1,10,00,000.00`).
 - `toINRWords` function to convert numbers to words in Indian currency format.
 - Paise support for decimal numbers (e.g., `Seventy-Five Paise`).
