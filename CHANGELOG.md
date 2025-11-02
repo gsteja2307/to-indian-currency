@@ -5,9 +5,12 @@ To document version changes and improvements.
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [2.0.3] - 2025-11-02
+### Fixed
+- npm install failure: include `scripts/postinstall.js` in published files to prevent MODULE_NOT_FOUND during postinstall.
 
-## [2.0.1] - 2025-11-02
 ## [2.0.2] - 2025-11-02
+## [2.0.1] - 2025-11-02
 ### Added
 - README: Playground link (https://gsuryateja.com/to-indian-currency/) and more examples.
 
