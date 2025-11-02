@@ -4,13 +4,13 @@ export function breakdown(value: number, _options: BreakdownOptions = {}) {
   const abs = Math.abs(value)
   let integerPart = Math.floor(abs)
   let paise = Math.round((abs - integerPart) * 100)
-  
+ 
   // Handle case where paise rounds to 100 (carry over to rupees)
   if (paise >= 100) {
     integerPart += 1
     paise = 0
   }
-  
+ 
   const crore = Math.floor(integerPart / 1_00_00_000)
   let rem = integerPart % 1_00_00_000
   const lakh = Math.floor(rem / 1_00_000)
