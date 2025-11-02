@@ -5,6 +5,18 @@ To document version changes and improvements.
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [2.0.4] - 2025-11-02
+### Added
+- **breakdown() now includes paise field**: The `breakdown()` function now returns a `paise` field (0-99) representing the decimal part of the amount, ensuring no data loss for financial calculations.
+  - Example: `breakdown(123456.75)` → `{ crore: 0, lakh: 1, thousand: 23, hundred: 4, remainder: 56, paise: 75 }`
+  - Properly handles edge cases where paise rounds to 100 (carries over to rupees)
+  - Maintains backward compatibility - existing code continues to work
+  - Consistent with `toINRWords()` which also handles paise
+
+### Changed
+- **breakdown() decimal handling**: Previously, decimal parts were silently discarded using `Math.floor()`. Now they are preserved as paise for complete financial accuracy.
+
 ## [2.0.3] - 2025-11-02
 ### Fixed
 - npm install failure: include `scripts/postinstall.js` in published files to prevent MODULE_NOT_FOUND during postinstall.

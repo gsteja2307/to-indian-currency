@@ -64,7 +64,7 @@ Notes:
   - `K` (Thousand) = `1,000`
   - `L` (Lakh) = `1,00,000`
   - `Cr` (Crore) = `1,00,00,000`
-- Unknown options throw (e.g., `options.foo`).
+- Unknown options throw (e.g., `options.foo is not supported`).
 
 #### Rounding modes
 - `nearest`: rounds to the closest value at `roundDigits` precision. Half (.5) rounds up.
@@ -100,7 +100,7 @@ parse('Rs. 123', { tolerant: true, defaultDecimals: 2 }) // 1.23
 ### parseWords: `parseWords(input: string): number`
 Parses numbers written in Indian words:
 ```js
-parseWords('One Crore Two Lakh Five Thousand') // 12050000
+parseWords('One Crore Two Lakh Five Thousand') // 10205000
 ```
 
 ### expandCompact: `expandCompact(input: string): number | null`
@@ -115,7 +115,10 @@ expandCompact('1K')    // 1000
 Indian system:
 ```js
 breakdown(123456789)
-// { crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89 }
+// { crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 0 }
+
+breakdown(123456789.75)
+// { crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 75 }
 ```
 
 ### GST helpers
@@ -147,7 +150,7 @@ npx to-indian-currency charges 100 --list=GST:0.18,Cess:0.01 --precision=2 --jso
 Flags:
 - `--json` to print structured results.
 - `--decimals=N` applies to compact rounding.
-- `--system=indian|western` for breakdown.
+- `--system=indian` for breakdown.
 
 ## Module Support
 - ESM: `import { toINR } from 'to-indian-currency'`
