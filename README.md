@@ -10,7 +10,7 @@ Maintained by: [G Surya Teja](https://github.com/gsteja2307)
 Playground: https://gsuryateja.com/to-indian-currency/
 
 ## Features
-- Format numbers into Indian Rupee (`\u20B9`) with proper grouping (1,10,00,000).
+- Format numbers into Indian Rupee (`₹`) with proper grouping (1,10,00,000).
 - Compact notation with Indian units: `K`, `L`, `Cr`.
 - Rounding controls for compact values: `round`, `roundDigits`, `roundingMode: 'none'|'nearest'|'down'|'up'`.
 - Convert amounts to Indian currency words.
@@ -32,18 +32,18 @@ npm install to-indian-currency
 // ESM
 import { toINR, toINRWords } from 'to-indian-currency'
 
-console.log(toINR(11000000))            // => "\u20B91,10,00,000.00"
+console.log(toINR(11000000))            // => "₹1,10,00,000.00"
 console.log(toINRWords(205030.75))      // => "Two Lakh Five Thousand Thirty Rupees and Seventy-Five Paise"
 
 // Compact (Indian)
-console.log(toINR(1500,  { compact: true }))                          // => "\u20B91.5K"
-console.log(toINR(1250,  { compact: true }))                          // => "\u20B91.25K" (no rounding)
-console.log(toINR(12503, { compact: true, round: true }))             // => "\u20B912.5K" (nearest, 1 digit)
-console.log(toINR(12454, { compact: true, round: true, roundDigits: 2, roundingMode: 'down' })) // => "\u20B912.45K"
-console.log(toINR(12456, { compact: true, round: true, roundDigits: 2, roundingMode: 'up' }))   // => "\u20B912.46K"
-console.log(toINR(150000, { compact: true }))                         // => "\u20B91.5L"
-console.log(toINR(32000000, { compact: true }))                       // => "\u20B93.2Cr"
-console.log(toINR(1500,  { compact: true, compactStyle: 'long' }))    // => "\u20B91.5 Thousand"
+console.log(toINR(1500,  { compact: true }))                          // => "₹1.5K"
+console.log(toINR(1250,  { compact: true }))                          // => "₹1.25K" (no rounding)
+console.log(toINR(12503, { compact: true, round: true }))             // => "₹12.5K" (nearest, 1 digit)
+console.log(toINR(12454, { compact: true, round: true, roundDigits: 2, roundingMode: 'down' })) // => "₹12.45K"
+console.log(toINR(12456, { compact: true, round: true, roundDigits: 2, roundingMode: 'up' }))   // => "₹12.46K"
+console.log(toINR(150000, { compact: true }))                         // => "₹1.5L"
+console.log(toINR(32000000, { compact: true }))                       // => "₹3.2Cr"
+console.log(toINR(1500,  { compact: true, compactStyle: 'long' }))    // => "₹1.5 Thousand"
 ```
 
 ## API
@@ -68,32 +68,32 @@ Notes:
 
 #### Rounding modes
 - `nearest`: rounds to the closest value at `roundDigits` precision. Half (.5) rounds up.
-  - `toINR(12503, { compact: true, round: true })` → `\u20B912.5K` (12.503 → 12.5)
-  - `toINR(12505, { compact: true, round: true, roundDigits: 2 })` → `\u20B912.51K` (12.505 → 12.51)
+  - `toINR(12503, { compact: true, round: true })` → `₹12.5K` (12.503 → 12.5)
+  - `toINR(12505, { compact: true, round: true, roundDigits: 2 })` → `₹12.51K` (12.505 → 12.51)
 - `down`: rounds toward zero.
-  - `toINR(12459, { compact: true, round: true, roundDigits: 2, roundingMode: 'down' })` → `\u20B912.45K`
+  - `toINR(12459, { compact: true, round: true, roundDigits: 2, roundingMode: 'down' })` → `₹12.45K`
 - `up`: rounds away from zero.
-  - `toINR(12451, { compact: true, round: true, roundDigits: 2, roundingMode: 'up' })` → `\u20B912.46K`
+  - `toINR(12451, { compact: true, round: true, roundDigits: 2, roundingMode: 'up' })` → `₹12.46K`
 - `none`: truncates to `roundDigits` (default 2) and shows fixed decimals, no rounding.
-  - `toINR(12506, { compact: true, round: true, roundingMode: 'none' })` → `\u20B912.50K`
+  - `toINR(12506, { compact: true, round: true, roundingMode: 'none' })` → `₹12.50K`
 
 ### words: `toINRWords(amount: number): string`
 Converts a number to Indian currency words. Includes paise if decimals exist.
 
 ### parse: `parse(input: string, options?: { tolerant?: boolean, defaultDecimals?: number }): number`
 Parses many common string formats:
-- Symbols and tokens: `\u20B9`, `Rs.`, `INR`
-- Indian commas: `\u20B91,23,456.78`
-- Parentheses for negatives: `(\u20B91,234.00)` → `-1234`
+- Symbols and tokens: `₹`, `Rs.`, `INR`
+- Indian commas: `₹1,23,456.78`
+- Parentheses for negatives: `(₹1,234.00)` → `-1234`
 - Mixed junk (tolerant mode): `foo INR 1,23,000 bar/-` → `123000`
 - Compact units: `12.3L` → `1230000` (via `expandCompact` internally)
 - `defaultDecimals`: when no decimal point is present, divides by `10^defaultDecimals`.
 
 Examples:
 ```js
-parse('\u20B912,34,567.50')                         // 1234567.5
+parse('₹12,34,567.50')                         // 1234567.5
 parse('INR 1,23,000/-', { tolerant: true })         // 123000
-parse('(\u20B91,234.00)')                           // -1234
+parse('(₹1,234.00)')                           // -1234
 parse('Rs. 123', { tolerant: true, defaultDecimals: 2 }) // 1.23
 ```
 
