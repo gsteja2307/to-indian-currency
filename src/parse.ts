@@ -69,7 +69,11 @@ export function parse(input: string, options: ParseOptions = {}): number {
   }
 
   const value = parseFloat(s)
-  return negative ? -value : value
+  const signed = negative ? -value : value
+  if (!Number.isFinite(signed)) {
+    throw new TypeError('parse: result is not a finite number')
+  }
+  return signed
 }
 
 // Parse words like 'One Crore Two Lakh Five Thousand'
@@ -94,7 +98,17 @@ function parseChunk(words: string[]): number {
 }
 
 export function parseWords(input: string): number {
+  if (typeof input !== 'string') {
+    throw new TypeError('parseWords: input must be a string')
+  }
   let s = input.toLowerCase().replace(/[-,]/g, ' ')
+  // optional prefix sign support (e.g., 'minus') or parentheses
+  let negative = false
+  if (/^\(.*\)$/.test(s)) {
+    negative = true
+    s = s.slice(1, -1)
+  }
+  s = s.replace(/^(minus)\b\s*/, (_m) => { negative = true; return '' })
   s = s.replace(/\band\b/g, ' ')
   s = s.replace(/\brupees?\b/g, ' ')
   s = s.replace(/\bpaise?\b/g, ' ')
@@ -117,6 +131,10 @@ export function parseWords(input: string): number {
     const tokens = rest.split(' ').filter(Boolean)
     total += parseChunk(tokens)
   }
-  return total
+  // handle explicit 'zero'
+  if (s === 'zero' || s === '') {
+    return 0
+  }
+  return negative ? -total : total
 }
 

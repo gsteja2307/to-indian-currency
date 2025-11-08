@@ -28,10 +28,50 @@ export function toINR(amount: number, options: INRCompactOptions = {}): string {
  */
 export function toINRWords(amount: number): string {
   validateAmount(amount)
-  const integerPart = Math.floor(amount)
-  const decimalPart = Math.round((amount - integerPart) * 100)
-  const rupeeWords = `${formatToIndianWords(integerPart)} Rupees`
-  const paiseWords = decimalPart > 0 ? ` and ${toWords(decimalPart)} Paise` : ''
-  return rupeeWords + paiseWords
+  
+  // Determine sign and work with absolute value for words
+  const sign = amount < 0 ? 'Minus ' : ''
+  const abs = Math.abs(amount)
+
+  // Special case for absolute zero
+  if (abs === 0) {
+    return 'Zero Rupees'
+  }
+
+  let integerPart = Math.floor(abs)
+  let paise = Math.round((abs - integerPart) * 100)
+
+  // carry if paise rounds to 100
+  if (paise >= 100) {
+    integerPart += 1
+    paise = 0
+  }
+
+  const rupeeBase = integerPart === 0 ? 'Zero' : formatToIndianWords(integerPart)
+  const rupeeLabel = integerPart === 1 ? 'Rupee' : 'Rupees'
+  const rupeeWords = `${sign}${rupeeBase} ${rupeeLabel}`
+
+  const paiseLabel = paise === 1 ? 'Paisa' : 'Paise'
+  const paiseWords = paise > 0 ? ` and ${toWords(paise)} ${paiseLabel}` : ''
+
+  // Title Case output for consistency with README examples; keep 'and' lowercase
+  const full = rupeeWords + paiseWords
+  return titleCase(full)
+}
+
+function titleCase(input: string): string {
+  const minor = new Set(['and'])
+  return input
+    .split(' ')
+    .map((word, idx) => {
+      if (!word) return word
+      const lower = word.toLowerCase()
+      if (idx > 0 && minor.has(lower)) return lower
+      return lower
+        .split('-')
+        .map(part => (part ? part[0].toUpperCase() + part.slice(1) : part))
+        .join('-')
+    })
+    .join(' ')
 }
 

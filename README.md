@@ -89,6 +89,10 @@ Parses many common string formats:
 - Compact units: `12.3L` → `1230000` (via `expandCompact` internally)
 - `defaultDecimals`: when no decimal point is present, divides by `10^defaultDecimals`.
 
+Notes:
+- Validates the final numeric result; throws if it is not a finite number.
+- Scientific/exponential notation is not supported in compact strings and may be rejected in parsing depending on format.
+
 Examples:
 ```js
 parse('₹12,34,567.50')                         // 1234567.5
@@ -111,14 +115,20 @@ expandCompact('1.5L')  // 150000
 expandCompact('1K')    // 1000
 ```
 
+Notes:
+- Supports decimal numbers only (no scientific/exponential notation like `1e6`).
+
 ### breakdown: `breakdown(value: number)`
-Indian system:
+Indian system (preserves sign via `sign: -1 | 0 | 1`):
 ```js
 breakdown(123456789)
-// { crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 0 }
+// { sign: 1, crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 0 }
 
 breakdown(123456789.75)
-// { crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 75 }
+// { sign: 1, crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 75 }
+
+breakdown(-123456789)
+// { sign: -1, crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 0 }
 ```
 
 ### GST helpers

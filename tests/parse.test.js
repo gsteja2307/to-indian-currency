@@ -22,6 +22,32 @@ describe('parse currency strings', () => {
   })
 })
 
+describe('parseWords', () => {
+  const { parseWords } = require('../dist/to-indian-currency.cjs.js')
+  test('zero tokens', () => {
+    expect(parseWords('zero')).toBe(0)
+    expect(parseWords('Zero Rupees')).toBe(0)
+  })
+  test('compound numbers', () => {
+    expect(parseWords('Twenty Five')).toBe(25)
+    expect(parseWords('Ninety-Nine')).toBe(99)
+  })
+  test('with Indian units', () => {
+    expect(parseWords('One Crore Two Lakh Five Thousand Thirty')).toBe(10205030)
+    expect(parseWords('One Hundred Twenty Three')).toBe(123)
+  })
+  test('type validation', () => {
+    expect(() => parseWords(12345)).toThrow(/parseWords: input must be a string/)
+  })
+})
+
+describe('parse validation', () => {
+  test('reject non-finite results', () => {
+    expect(() => parse('�,11e309')).toThrow(/Invalid currency string|not a finite number/)
+    expect(() => parse('NaN', { tolerant: true })).toThrow(/Invalid currency string|not a finite number/)
+  })
+})
+
 describe('expandCompact', () => {
   test('units', () => {
     expect(expandCompact('2.5Cr')).toBe(25000000)

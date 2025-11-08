@@ -1,6 +1,7 @@
 import type { BreakdownOptions } from './types'
 
 export function breakdown(value: number, _options: BreakdownOptions = {}) {
+  const sign = value === 0 ? 0 : (value < 0 ? -1 : 1)
   const abs = Math.abs(value)
   let integerPart = Math.floor(abs)
   let paise = Math.round((abs - integerPart) * 100)
@@ -19,5 +20,5 @@ export function breakdown(value: number, _options: BreakdownOptions = {}) {
   rem = rem % 1000
   const hundred = Math.floor(rem / 100)
   const remainder = rem % 100
-  return { crore, lakh, thousand, hundred, remainder, paise }
+  return { sign, crore, lakh, thousand, hundred, remainder, paise }
 }

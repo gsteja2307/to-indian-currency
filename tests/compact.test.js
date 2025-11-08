@@ -36,6 +36,18 @@ describe('compact basic cases', () => {
     expect(toINRWords(205030.75).toLowerCase()).toContain('lakh')
   })
 
+  test('words zero rupees', () => {
+    expect(toINRWords(0)).toBe('Zero Rupees')
+  })
+
+  test('words negative amount with paise', () => {
+    expect(toINRWords(-1.5)).toBe('Minus One Rupee and Fifty Paise')
+  })
+
+  test('words negative sub-rupee amount', () => {
+    expect(toINRWords(-0.5)).toBe('Minus Zero Rupees and Fifty Paise')
+  })
+
   test('unknown options throw', () => {
     expect(() => toINR(1000, { compact: true, foo: true })).toThrow(/options\.foo is not supported/)
   })

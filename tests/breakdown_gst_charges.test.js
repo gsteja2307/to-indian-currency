@@ -1,8 +1,12 @@
 const { breakdown, addGST, splitGST, applyCharges } = require('../dist/to-indian-currency.cjs.js')
 
 describe('breakdown', () => {
-  test('indian only', () => {
-    expect(breakdown(123456789)).toEqual({ crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 0 })
+  test('indian only (positive)', () => {
+    expect(breakdown(123456789)).toEqual({ sign: 1, crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 0 })
+  })
+
+  test('preserves sign for negative input', () => {
+    expect(breakdown(-123456789)).toEqual({ sign: -1, crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 0 })
   })
 })
 

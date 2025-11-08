@@ -1,9 +1,10 @@
 import { toWords } from 'number-to-words'
 
 /**
- * Convert a number to Indian numbering words
- * @param {number} number
- * @returns {string}
+ * Convert a non-negative integer to Indian numbering words.
+ * Notes:
+ * - Expects an integer; any fractional part should be handled by caller.
+ * - For amounts with paise/decimals or negative values, use higher-level `toINRWords`.
  */
 export function formatToIndianWords(number: number): string {
   const units = [
