@@ -66,6 +66,9 @@ Notes:
   - `Cr` (Crore) = `1,00,00,000`
 - Unknown options throw (e.g., `options.foo is not supported`).
 
+Note:
+- Standard (non-compact) formatting uses `Intl.NumberFormat` for rounding to 2 decimals, which is spec-compliant and consistent across modern runtimes.
+
 #### Rounding modes
 - `nearest`: rounds to the closest value at `roundDigits` precision. Half (.5) rounds up.
   - `toINR(12503, { compact: true, round: true })` → `₹12.5K` (12.503 → 12.5)
@@ -131,6 +134,11 @@ breakdown(-123456789)
 // { sign: -1, crore: 12, lakh: 34, thousand: 56, hundred: 7, remainder: 89, paise: 0 }
 ```
 
+Notes:
+- The `paise` field represents the decimal portion (0-99 paise, where 100 paise = 1 rupee).
+- When paise calculations round to 100, they automatically carry over to rupees (e.g., 1.995 becomes 2 rupees and 0 paise).
+- Due to how computers handle decimal numbers, some values like 0.3 may have minor precision differences internally (29.9999... instead of exactly 30). The function uses `Math.round()` to ensure correct integer paise values.
+
 ### GST helpers
 ```js
 addGST(100, 18)     // { total: 118, tax: 18 }
@@ -147,7 +155,7 @@ applyCharges(100, [ { name: 'GST', rate: 0.18 }, { name: 'Cess', rate: 0.01 } ])
 The CLI mirrors the library. Install and run once via `npx`:
 
 ```bash
-npx to-indian-currency format 1234567 --compact --decimals=0
+npx to-indian-currency format 1234567 --compact --decimals=0 --compactStyle=long
 npx to-indian-currency parse "INR 1,23,000/-" --tolerant --json
 npx to-indian-currency words "One Lakh Five Thousand"
 npx to-indian-currency breakdown 123456789 --json
@@ -160,6 +168,7 @@ npx to-indian-currency charges 100 --list=GST:0.18,Cess:0.01 --precision=2 --jso
 Flags:
 - `--json` to print structured results.
 - `--decimals=N` applies to compact rounding.
+- `--compactStyle=short|long` controls compact suffix style in CLI.
 - `--system=indian` for breakdown.
 
 ## Module Support
