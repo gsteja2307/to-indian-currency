@@ -1,7 +1,7 @@
 {
   "name": "to-indian-currency",
   "author": "https://github.com/gsteja2307",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A simple utility to convert numbers into Indian Rupee format and words.",
   "main": "./dist/to-indian-currency.cjs.js",
   "module": "./dist/to-indian-currency.es.js",

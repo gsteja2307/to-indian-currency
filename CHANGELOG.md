@@ -6,6 +6,7 @@ To document version changes and improvements.
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.1]
 ## [2.1.0]
 ### Added
 - Validation for GST rates and charges: throw on non-finite values.
