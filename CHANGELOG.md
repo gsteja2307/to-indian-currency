@@ -6,6 +6,19 @@ To document version changes and improvements.
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0]
+### Added
+- Validation for GST rates and charges: throw on non-finite values.
+- Input validation in CLI for numbers, `--decimals`, and `--rate`; friendly error messages.
+- CLI: `--compactStyle=short|long` flag wired to `format` command.
+- roundValue: input guards for value, digits, and mode.
+
+### Fixed
+- applyCharges: validates items and rates to prevent NaN propagation.
+
+### Docs
+- README: notes on standard rounding via `Intl.NumberFormat` and floating-point considerations for paise in `breakdown`.
+
 ## [2.0.5] - 2025-11-08
 ### Breaking
 - breakdown(): returns a `sign` field (`-1 | 0 | 1`) and keeps all buckets non-negative. The returned object shape now includes `sign` and may require consumer updates.

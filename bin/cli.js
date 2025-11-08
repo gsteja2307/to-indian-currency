@@ -32,9 +32,18 @@ function main() {
   switch (cmd) {
     case 'format': {
       const val = Number(args._[1])
+      if (!Number.isFinite(val)) {
+        console.error(`Error: '${args._[1] ?? ''}' is not a valid number. Please provide a numeric value.`)
+        process.exit(1)
+      }
       const compact = !!args.compact
       const decimals = args.decimals != null ? Number(args.decimals) : undefined
-      const style = args.system === 'indian' ? 'short' : 'short'
+      if (decimals != null && (!Number.isInteger(decimals) || decimals < 0)) {
+        console.error(`Error: --decimals must be a non-negative integer`)
+        process.exit(1)
+      }
+      const styleArg = (args.compactStyle || args.style)
+      const style = styleArg === 'long' ? 'long' : 'short'
       const res = toINR(val, { compact, compactMin: 1000, compactStyle: style, round: decimals != null, roundDigits: decimals ?? undefined })
       print(res, json)
       break
@@ -53,6 +62,10 @@ function main() {
     }
     case 'breakdown': {
       const val = Number(args._[1])
+      if (!Number.isFinite(val)) {
+        console.error(`Error: '${args._[1] ?? ''}' is not a valid number. Please provide a numeric value.`)
+        process.exit(1)
+      }
       print(breakdown(val, {}), json)
       break
     }
@@ -68,9 +81,13 @@ function main() {
       const roundingMode = args.roundingMode
       if (sub === 'add') {
         const base = Number(args._[2])
+        if (!Number.isFinite(base)) { console.error(`Error: base must be a valid number`); process.exit(1) }
+        if (!Number.isFinite(rate)) { console.error(`Error: --rate must be a finite number`); process.exit(1) }
         print(addGST(base, rate, { precision, roundingMode }), json)
       } else if (sub === 'split') {
         const total = Number(args._[2])
+        if (!Number.isFinite(total)) { console.error(`Error: total must be a valid number`); process.exit(1) }
+        if (!Number.isFinite(rate)) { console.error(`Error: --rate must be a finite number`); process.exit(1) }
         print(splitGST(total, rate, { precision, roundingMode }), json)
       } else {
         console.error('gst subcommands: add|split --rate=18 [--precision=2] [--roundingMode=nearest|down|up|none]')
@@ -80,9 +97,15 @@ function main() {
     }
     case 'charges': {
       const base = Number(args._[1])
+      if (!Number.isFinite(base)) { console.error(`Error: base must be a valid number`); process.exit(1) }
       const list = (args.list || '').split(',').filter(Boolean).map(pair => {
         const [name, rateStr] = pair.split(':')
-        return { name, rate: Number(rateStr) }
+        const rate = Number(rateStr)
+        if (!Number.isFinite(rate)) {
+          console.error(`Error: invalid rate for '${name}': '${rateStr}'. Rates must be finite numbers.`)
+          process.exit(1)
+        }
+        return { name, rate }
       })
       const precision = args.precision != null ? Number(args.precision) : undefined
       const roundingMode = args.roundingMode

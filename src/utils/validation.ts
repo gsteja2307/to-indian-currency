@@ -1,4 +1,5 @@
 import { VALID_COMPACT_STYLES } from '../constants'
+import type { ChargeItem } from '../types'
 
 /**
  * Validate the amount argument
@@ -56,6 +57,41 @@ export function validateToINROptions(options: INRCompactOptions | undefined): vo
   for (const key of Object.keys(options as Record<string, unknown>)) {
     if (!allowed.has(key)) {
       throw new TypeError(`toINR: options.${key} is not supported`)
+    }
+  }
+}
+
+/**
+ * Assert that a value is a finite number
+ */
+export function assertFinite(label: string, value: unknown): asserts value is number {
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    throw new TypeError(`${label}: must be a finite number`)
+  }
+}
+
+/**
+ * Validate a rate (percentage or ratio) is a finite number
+ */
+export function assertRate(label: string, rate: unknown): asserts rate is number {
+  if (typeof rate !== 'number' || !Number.isFinite(rate)) {
+    throw new TypeError(`${label}: rate must be a finite number`)
+  }
+}
+
+/**
+ * Validate charge items structure
+ */
+export function validateChargeItems(items: ChargeItem[]): void {
+  if (!Array.isArray(items)) {
+    throw new TypeError('applyCharges: items must be an array')
+  }
+  for (const it of items) {
+    if (!it || typeof it.name !== 'string') {
+      throw new TypeError('applyCharges: each item must have a string name')
+    }
+    if (typeof (it as any).rate !== 'number' || !Number.isFinite((it as any).rate)) {
+      throw new TypeError(`applyCharges: rate for '${it.name}' must be a finite number`)
     }
   }
 }

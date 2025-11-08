@@ -1,7 +1,10 @@
 import type { ChargeItem, RoundingOptions } from './types'
 import { roundValue } from './utils/rounding'
+import { assertFinite, validateChargeItems } from './utils/validation'
 
 export function applyCharges(base: number, items: ChargeItem[], options: RoundingOptions = {}) {
+  assertFinite('applyCharges: base', base)
+  validateChargeItems(items)
   const precision = options.precision ?? 2
   const mode = options.roundingMode ?? 'nearest'
   const charges = [] as Array<{ name: string, amount: number }>
