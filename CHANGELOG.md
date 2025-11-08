@@ -6,6 +6,24 @@ To document version changes and improvements.
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.5] - 2025-11-08
+### Breaking
+- breakdown(): returns a `sign` field (`-1 | 0 | 1`) and keeps all buckets non-negative. The returned object shape now includes `sign` and may require consumer updates.
+
+### Added
+- toINRWords(): Title Case output for consistency with README; keeps conjunction "and" lowercase; hyphenated numbers are title-cased (e.g., `Seventy-Five`).
+- toINRWords(): Singular/plural grammar — `1` → "Rupee"/"Paisa", others → "Rupees"/"Paise".
+- parseWords(): Input type validation with clear error; optional support for `minus …` prefix and parentheses negatives.
+- Tests: negative words scenarios, zero-rupees words, and parseWords compound/unit cases.
+
+### Fixed
+- toINRWords(): Correct negative handling — compute on absolute value and prefix "Minus "; carry when paise rounds to 100; ensure integer part renders for sub-rupee amounts (e.g., `-0.5` → "Minus Zero Rupees and Fifty Paise").
+- parseWords(): Properly handles standalone "zero"/"Zero Rupees"; verified additive composition for multi-digit phrases (e.g., "Twenty Five" → `25`, "Ninety-Nine" → `99`).
+- parse(): Validates final numeric result and throws if not a finite number (e.g., Infinity/NaN cases).
+
+### Docs
+- README: Documented `breakdown` sign semantics (`-1 | 0 | 1`), and clarified `parse`/`expandCompact` supported formats (no scientific notation in compact).
+
 ## [2.0.4] - 2025-11-02
 ### Added
 - **breakdown() now includes paise field**: The `breakdown()` function now returns a `paise` field (0-99) representing the decimal part of the amount, ensuring no data loss for financial calculations.
